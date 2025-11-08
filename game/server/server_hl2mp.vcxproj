@@ -532,11 +532,6 @@ copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "D:\Debian\Steam\hl2mp-win32\hl2mp\
     <ClInclude Include="..\..\public\ihltvdirector.h" />
     <ClInclude Include="..\..\public\vstdlib\IKeyValuesSystem.h" />
     <ClInclude Include="hl2mp.ru\stripper\parser.h" />
-    <ClInclude Include="hl2mp.ru\stripper\pcre.h" />
-    <ClInclude Include="hl2mp.ru\stripper\sh_list.h" />
-    <ClInclude Include="hl2mp.ru\stripper\sh_stack.h" />
-    <ClInclude Include="hl2mp.ru\stripper\sh_string.h" />
-    <ClInclude Include="hl2mp.ru\stripper\sh_vector.h" />
     <ClInclude Include="ilagcompensationmanager.h" />
     <ClInclude Include="..\..\public\vgui\ILocalize.h" />
     <ClInclude Include="..\..\public\materialsystem\imaterial.h" />
