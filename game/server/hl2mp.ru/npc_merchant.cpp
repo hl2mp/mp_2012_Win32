@@ -710,6 +710,7 @@ public:
 			return;
 
 		manifest->deleteThis();
+		manifest = NULL;
 		m_AlreadySpawn.RemoveAll();
 	}
 

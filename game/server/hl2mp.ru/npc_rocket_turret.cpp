@@ -709,44 +709,44 @@ static int HitGroupFromPhysicsBone( CBaseAnimating *pAnim, int physicsBone )
 bool CNPC_RocketTurret::CreateVPhysics( void )
 {
 
-	CStudioHdr *pStudioHdr = GetModelPtr();
-	matrix3x4_t boneToWorld;
-	solid_t solidTmp;
+	// CStudioHdr *pStudioHdr = GetModelPtr();
+	// matrix3x4_t boneToWorld;
+	// solid_t solidTmp;
 
-	Vector bonePosition;
-	QAngle boneAngles;
+	// Vector bonePosition;
+	// QAngle boneAngles;
 
-	solid_t *pSolid = NULL;
+	// solid_t *pSolid = NULL;
 	
 
-	int boneIndex = Studio_BoneIndexByName( pStudioHdr, "Missle_02" );
+	// int boneIndex = Studio_BoneIndexByName( pStudioHdr, "Missle_02" );
 
-	if ( boneIndex >= 0 )
-	{
-		mstudiobone_t *pBone = pStudioHdr->pBone( boneIndex );
+	// if ( boneIndex >= 0 )
+	// {
+	// 	mstudiobone_t *pBone = pStudioHdr->pBone( boneIndex );
 
-		int physicsBone = pBone->physicsbone;
-		if ( !pSolid )
-		{
-			if ( !PhysModelParseSolidByIndex( solidTmp, this, GetModelIndex(), physicsBone ) )
-				return false;
-			pSolid = &solidTmp;
-		}
+	// 	int physicsBone = pBone->physicsbone;
+	// 	if ( !pSolid )
+	// 	{
+	// 		if ( !PhysModelParseSolidByIndex( solidTmp, this, GetModelIndex(), physicsBone ) )
+	// 			return false;
+	// 		pSolid = &solidTmp;
+	// 	}
 
-		// fixup in case ragdoll is assigned to a parent of the requested follower bone
-		m_Bonefollow.boneIndex = Studio_BoneIndexByName( pStudioHdr, pSolid->name );
-		if ( m_Bonefollow.boneIndex < 0 )
-		{
-			m_Bonefollow.boneIndex = boneIndex;
-		}
+	// 	// fixup in case ragdoll is assigned to a parent of the requested follower bone
+	// 	m_Bonefollow.boneIndex = Studio_BoneIndexByName( pStudioHdr, pSolid->name );
+	// 	if ( m_Bonefollow.boneIndex < 0 )
+	// 	{
+	// 		m_Bonefollow.boneIndex = boneIndex;
+	// 	}
 
-		GetBoneTransform( m_Bonefollow.boneIndex, boneToWorld );
-		MatrixAngles( boneToWorld, boneAngles, bonePosition );
+	// 	GetBoneTransform( m_Bonefollow.boneIndex, boneToWorld );
+	// 	MatrixAngles( boneToWorld, boneAngles, bonePosition );
 
-		m_Bonefollow.hFollower = CBoneFollower::Create( this, "models/roller.mdl", *pSolid, bonePosition, boneAngles );
-		m_Bonefollow.hFollower->SetTraceData( physicsBone, HitGroupFromPhysicsBone( this, physicsBone ) );
-		m_Bonefollow.hFollower->SetBlocksLOS( BlocksLOS() );
-	}
+	// 	m_Bonefollow.hFollower = CBoneFollower::Create( this, "models/roller.mdl", *pSolid, bonePosition, boneAngles );
+	// 	m_Bonefollow.hFollower->SetTraceData( physicsBone, HitGroupFromPhysicsBone( this, physicsBone ) );
+	// 	m_Bonefollow.hFollower->SetBlocksLOS( BlocksLOS() );
+	// }
 
 	//m_BoneFollowerManager.InitBoneFollowers( this, ARRAYSIZE(pRocketTurretFollowerBoneNames), pRocketTurretFollowerBoneNames );
 	//BaseClass::CreateVPhysics();
@@ -1332,12 +1332,15 @@ bool CNPC_RocketTurret::TestLOS( const Vector& vAimPoint )
 //-----------------------------------------------------------------------------
 bool CNPC_RocketTurret::PreThink( void )
 {
-	matrix3x4_t boneToWorld;
-	QAngle boneAngles;
-	Vector bonePosition;
-	GetBoneTransform( m_Bonefollow.boneIndex, boneToWorld );
-	MatrixAngles( boneToWorld, boneAngles, bonePosition );
-	m_Bonefollow.hFollower->UpdateFollower(bonePosition, boneAngles, 0.1f );
+	if(m_Bonefollow.hFollower)
+	{
+		matrix3x4_t boneToWorld;
+		QAngle boneAngles;
+		Vector bonePosition;
+		GetBoneTransform( m_Bonefollow.boneIndex, boneToWorld );
+		MatrixAngles( boneToWorld, boneAngles, bonePosition );
+		m_Bonefollow.hFollower->UpdateFollower(bonePosition, boneAngles, 0.1f );
+	}
 
 	//m_BoneFollowerManager.UpdateBoneFollowers(this);
 	StudioFrameAdvance();

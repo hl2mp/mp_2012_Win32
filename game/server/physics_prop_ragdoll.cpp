@@ -1511,6 +1511,11 @@ void CRagdollPropAttached::InitRagdollAttached(
 	InitRagdoll( forceVector, forceBone, vec3_origin, pPrevBones, pBoneToWorld, dt, collisionGroup, false );
 	
 	IPhysicsObject *pRefObject = m_ragdoll.list[ragdollAttachedIndex].pObject;
+	if(!pRefObject)
+	{
+		Remove();
+		return;
+	}
 
 	Vector attachmentPointRagdollSpace;
 	pRefObject->WorldToLocal( &attachmentPointRagdollSpace, worldAttachOrigin );
@@ -1578,6 +1583,9 @@ CRagdollProp *CreateServerRagdollAttached( CBaseAnimating *pAnimating, const Vec
 		return NULL;
 
 	CRagdollPropAttached *pRagdoll = (CRagdollPropAttached *)CBaseEntity::CreateNoSpawn( "prop_ragdoll_attached", pAnimating->GetAbsOrigin(), vec3_angle, NULL );
+	if( !pRagdoll )
+		return NULL;
+
 	pRagdoll->CopyAnimationDataFrom( pAnimating );
 
 	pRagdoll->InitRagdollAnimation();

@@ -21,7 +21,10 @@ public:
 
 	virtual void LevelShutdownPostEntity() {
 		if( manifest )
+		{
 			manifest->deleteThis();
+			manifest = NULL;
+		}
 	}
 
 	void Save() {

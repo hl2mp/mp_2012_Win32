@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright пїЅ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -522,7 +522,7 @@ bool CNPC_Portal_FloorTurret::PreThink( turretState_e state )
 
 extern bool FindInList( const char **pStrings, const char *pToFind );
 
-//D@Ni1986: Стреляем ракетами только в нужных NPCs
+//D@Ni1986: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ NPCs
 static const char *s_AllowNPC[] =
 {
 	"npc_helicopter",
@@ -1205,7 +1205,7 @@ void CNPC_Portal_FloorTurret::HeldThink( void )
 	IPhysicsObject *pTurretPhys = VPhysicsGetObject();
 
 	// If we're not held anymore, stop thrashing
-	if ( !(pTurretPhys->GetGameFlags() & FVPHYSICS_PLAYER_HELD) )
+	if ( pTurretPhys && !(pTurretPhys->GetGameFlags() & FVPHYSICS_PLAYER_HELD) )
 	{
 		m_fNextTalk = gpGlobals->curtime + 1.25f;
 
