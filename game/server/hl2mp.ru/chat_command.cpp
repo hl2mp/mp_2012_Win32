@@ -274,12 +274,14 @@ public:
 
 	virtual void LevelInitPreEntity( void )
 	{
+		g_vecRTVVoters.Purge();
+
 		vGlobalPoint = vec3_origin;
 
 		if( gpGlobals->eLoadType == MapLoad_Transition )
 			SaveTpClearPoint();
 		else
-			m_PlayerInfo.RemoveAll();
+			m_PlayerInfo.Purge();
 
 		m_fWaitVotes = gpGlobals->curtime + 30;
 	}
@@ -315,7 +317,7 @@ public:
 			engine->ServerCommand("changelevel_next\n");
             
 			// Очищаем список голосовавших после успешного RTV
-			g_vecRTVVoters.RemoveAll();
+			g_vecRTVVoters.Purge();
 		}
 
 		for ( int i = 0; i < m_PlayerInfo.Count(); i++ ) {

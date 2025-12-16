@@ -108,6 +108,8 @@ public:
 		char fullPath[_MAX_PATH];
 		if( filesystem->GetLocalPath( "maprecovery.txt", fullPath, sizeof(fullPath) ) )
 			manifest->SaveToFile( filesystem, fullPath, "GAME" );
+
+		clear();
 	}
 
 	const char *GetMapDB() {
@@ -135,6 +137,7 @@ public:
 		CUtlString sCmd;
 		sCmd.Format( "exec maps/%s.cfg\n", STRING( gpGlobals->mapname) );
 		engine->ServerCommand( sCmd.Get() );
+		sCmd.Purge();
 
 		if( !gpMapRecovery.m_initialised )
 		{

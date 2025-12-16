@@ -202,8 +202,6 @@ void Finish( CSaveRestoreData *save )
 	SaveFreeMemory( save );
 
 	gpGlobals->pSaveData = nullptr;
-
-	save->~CSaveRestoreData();
 }
 
 void ResetSaveData( void )

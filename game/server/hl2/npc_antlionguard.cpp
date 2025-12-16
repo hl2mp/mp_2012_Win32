@@ -46,9 +46,11 @@ ConVar	g_debug_antlionguard( "g_debug_antlionguard", "0" );
 ConVar	sk_antlionguard_dmg_charge( "sk_antlionguard_dmg_charge", "0" );
 ConVar	sk_antlionguard_dmg_shove( "sk_antlionguard_dmg_shove", "0" );
 
+#define HL2_EPISODIC 1
+
 #if HL2_EPISODIC
 // When enabled, add code to have the antlion bleed profusely as it is badly injured.
-#define ANTLIONGUARD_BLOOD_EFFECTS 2
+//#define ANTLIONGUARD_BLOOD_EFFECTS 2
 ConVar	g_antlionguard_hemorrhage( "g_antlionguard_hemorrhage", "1", FCVAR_NONE, "If 1, guard will emit a bleeding particle effect when wounded." );
 #endif
 
@@ -58,6 +60,8 @@ ConVar	g_antlionguard_hemorrhage( "g_antlionguard_hemorrhage", "1", FCVAR_NONE, 
 
 #define	ENVELOPE_CONTROLLER		(CSoundEnvelopeController::GetController())
 #define	ANTLIONGUARD_MODEL		"models/antlion_guard.mdl"
+#define	ANTLION_CAVE_GUARD_MODEL		"models/antlion_cave_guard.mdl"
+
 #define	MIN_BLAST_DAMAGE		25.0f
 #define MIN_CRUSH_DAMAGE		20.0f
 
@@ -667,7 +671,15 @@ void CNPC_AntlionGuard::UpdateOnRemove( void )
 //-----------------------------------------------------------------------------
 void CNPC_AntlionGuard::Precache( void )
 {
-	PrecacheModel( ANTLIONGUARD_MODEL );
+
+	if( m_bInCavern || m_bCavernBreed )
+	{
+		PrecacheModel( ANTLION_CAVE_GUARD_MODEL );
+	}
+	else
+	{
+		PrecacheModel( ANTLIONGUARD_MODEL );
+	}
 
 	PrecacheScriptSound( "NPC_AntlionGuard.Shove" );
 	PrecacheScriptSound( "NPC_AntlionGuard.HitHard" );
@@ -768,12 +780,19 @@ void CNPC_AntlionGuard::Spawn( void )
 {
 	Precache();
 
-	SetModel( ANTLIONGUARD_MODEL );
+	if( m_bCavernBreed )
+	{
+		SetModel( ANTLION_CAVE_GUARD_MODEL );
+	}
+	else
+	{
+		SetModel( ANTLIONGUARD_MODEL );
+	}
 
 	// Switch our skin (for now), if we're the cavern guard
 	if ( m_bCavernBreed )
 	{
-		m_nSkin = 1;
+		//m_nSkin = 1;
 		
 		// Add glows
 		CreateGlow( &(m_hCaveGlow[0]), "attach_glow1" );
@@ -1063,7 +1082,7 @@ int CNPC_AntlionGuard::SelectCombatSchedule( void )
 bool CNPC_AntlionGuard::ShouldCharge( const Vector &startPos, const Vector &endPos, bool useTime, bool bCheckForCancel )
 {
 	// Don't charge in tight spaces unless forced to
-	if ( hl2_episodic.GetBool() && m_bInCavern && !(m_hChargeTarget.Get() && m_hChargeTarget->IsAlive()) )
+	if ( m_bInCavern && !(m_hChargeTarget.Get() && m_hChargeTarget->IsAlive()) )
 		return false;
 
 	// Must have a target
@@ -1265,7 +1284,7 @@ int CNPC_AntlionGuard::MeleeAttack1Conditions( float flDot, float flDist )
 	if ( IsCurSchedule( SCHED_ANTLIONGUARD_CHARGE ) )
 		return 0;
 
-	if ( hl2_episodic.GetBool() && m_bInCavern )
+	if ( m_bInCavern )
 	{
 		// Predict where they'll be and see if THAT is within range
 		Vector vecPredPos;
@@ -1324,7 +1343,7 @@ float CNPC_AntlionGuard::MaxYawSpeed( void )
 	if ( eActivity == ACT_ANTLIONGUARD_CHARGE_START )
 		return 4.0f;
 
-	if ( hl2_episodic.GetBool() && m_bInCavern )
+	if ( m_bInCavern )
 	{
 		// Allow a better turning rate when moving quickly but not charging the player
 		if ( ( eActivity == ACT_ANTLIONGUARD_CHARGE_RUN ) && IsCurSchedule( SCHED_ANTLIONGUARD_CHARGE ) == false )
@@ -1748,7 +1767,7 @@ void CNPC_AntlionGuard::HandleAnimEvent( animevent_t *pEvent )
 			}
 
 			// Toss this if we're episodic
-			if ( hl2_episodic.GetBool() )
+			if ( 1 )
 			{
 				Vector vecTargetDir = vecShoveVel;
 
@@ -3371,7 +3390,7 @@ Activity CNPC_AntlionGuard::NPC_TranslateActivity( Activity baseAct )
 		return (Activity) ACT_ANTLIONGUARD_CHARGE_RUN;
 
 	// Do extra code if we're trying to close on an enemy in a confined space (unless scripted)
-	if ( hl2_episodic.GetBool() && m_bInCavern && baseAct == ACT_RUN && IsInAScript() == false )
+	if ( m_bInCavern && baseAct == ACT_RUN && IsInAScript() == false )
 		return (Activity) ACT_ANTLIONGUARD_CHARGE_RUN;
 
 	if ( ( baseAct == ACT_RUN ) && ( m_iHealth <= (m_iMaxHealth/4) ) )
@@ -4356,7 +4375,7 @@ bool CNPC_AntlionGuard::CanBecomeRagdoll( void )
 	if ( IsCurSchedule( SCHED_DIE ) )
 		return true;
 
-	return hl2_episodic.GetBool();
+	return true;
 }
 
 //-----------------------------------------------------------------------------
