@@ -346,7 +346,8 @@ void CHL2MP_Player::Spawn(void)
 
 		RemoveEffects( EF_NODRAW );
 		
-		//GiveDefaultItems();
+		if(IsFakeClient())
+			GiveDefaultItems();
 	}
 
 	SetNumAnimOverlays( 3 );
