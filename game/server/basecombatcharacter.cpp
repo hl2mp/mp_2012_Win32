@@ -2517,12 +2517,12 @@ int CBaseCombatCharacter::OnTakeDamage_Alive( const CTakeDamageInfo &currentinfo
 			m_flDamageAccumulator -= 1.0;
 		}
 
-		if ( flIntegerDamage <= 0 )
+		if ( flIntegerDamage <= 0.0f )
 			return 0;
 
 		CBasePlayer *pPlayer = ToBasePlayer( info.GetAttacker() );
 		if( pPlayer && IsNPC() && !FClassnameIs( this, "npc_barnacle" ) && !FClassnameIs( this, "npc_furniture" ) ) {
-			static float m_hTestPL[MAX_PLAYERS];
+			static float m_hTestPL[MAX_PLAYERS_ARRAY_SAFE];
 			if( flIntegerDamage < m_iHealth ) {
 				if( dmgpnpc )
 					m_hTestPL[pPlayer->entindex()] += flIntegerDamage/2.0;

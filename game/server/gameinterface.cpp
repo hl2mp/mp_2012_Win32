@@ -627,8 +627,7 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 
 	if ( !CommandLine()->CheckParm( "-noscripting") )
 	{
-		//hl2mp.ru - Кому надо включите обратно!
-		//scriptmanager = (IScriptManager *)appSystemFactory( VSCRIPT_INTERFACE_VERSION, NULL );
+		scriptmanager = (IScriptManager *)appSystemFactory( VSCRIPT_INTERFACE_VERSION, NULL );
 	}
 
 	// If not running dedicated, grab the engine vgui interface
