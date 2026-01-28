@@ -457,7 +457,42 @@ void CHL2MP_Player_fix::PostThink(void)
 		}
 	}
 }
+// sse2_math_fixes.cpp
+#include <cmath>
 
+// Замена для __libm_sse2_sincosf_
+extern "C" void __libm_sse2_sincosf_(float angle, float* sinVal, float* cosVal)
+{
+    *sinVal = sinf(angle);
+    *cosVal = cosf(angle);
+}
+
+// Замена для __libm_sse2_sincosf4_ (для SSE2 регистров xmm0-xmm3)
+// Эта функция работает с 4 углами одновременно
+extern "C" void __libm_sse2_sincosf4_(
+    float* angles,    // 4 угла
+    float* sinVals,   // 4 значения синусов
+    float* cosVals)   // 4 значения косинусов
+{
+    for (int i = 0; i < 4; i++)
+    {
+        sinVals[i] = sinf(angles[i]);
+        cosVals[i] = cosf(angles[i]);
+    }
+}
+
+// Можно также добавить другие отсутствующие функции
+extern "C" void __libm_sse2_sinf4_(float* angles, float* results)
+{
+    for (int i = 0; i < 4; i++)
+        results[i] = sinf(angles[i]);
+}
+
+extern "C" void __libm_sse2_cosf4_(float* angles, float* results)
+{
+    for (int i = 0; i < 4; i++)
+        results[i] = cosf(angles[i]);
+}
 void CHL2MP_Player_fix::PickupObject(CBaseEntity *pObject, bool bLimitMassAndSize)
 {
 	if( !sv_player_pickup.GetBool() && !IsAdmin( this, FL_ADMIN_PICKUP ) || m_flBlockUse > gpGlobals->curtime )

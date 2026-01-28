@@ -9,7 +9,7 @@ ifeq "$(CFG)" ""
 	CFG = release
 endif
 
-GCC_ExtraCompilerFlags= -w -fPIC
+GCC_ExtraCompilerFlags= -w
 GCC_ExtraLinkerFlags= -Wl,--wrap=stat64
 SymbolVisibility=hidden
 OptimizerLevel=-gdwarf-4 -g2 $(OptimizerLevel_CompilerSpecific)

@@ -3108,20 +3108,20 @@ void CNPC_MetroPolice::Event_Killed( const CTakeDamageInfo &info )
 		ReleaseManhack();
 		m_hManhack = NULL;
 	}
+	// hl2mp.ru Течь памяти!
+	//CBasePlayer *pPlayer = ToBasePlayer( info.GetAttacker() );
 
-	CBasePlayer *pPlayer = ToBasePlayer( info.GetAttacker() );
+	//if ( pPlayer != NULL )
+	//{
+	//	CHalfLife2 *pHL2GameRules = static_cast<CHalfLife2 *>(g_pGameRules);
 
-	if ( pPlayer != NULL )
-	{
-		CHalfLife2 *pHL2GameRules = static_cast<CHalfLife2 *>(g_pGameRules);
-
-		// Attempt to drop health
-		if ( pHL2GameRules->NPC_ShouldDropHealth( pPlayer ) )
-		{
-			DropItem( "item_healthvial", WorldSpaceCenter()+RandomVector(-4,4), RandomAngle(0,360) );
-			pHL2GameRules->NPC_DroppedHealth();
-		}
-	}
+	//	// Attempt to drop health
+	//	if ( pHL2GameRules->NPC_ShouldDropHealth( pPlayer ) )
+	//	{
+	//		DropItem( "item_healthvial", WorldSpaceCenter()+RandomVector(-4,4), RandomAngle(0,360) );
+	//		pHL2GameRules->NPC_DroppedHealth();
+	//	}
+	//}
 
 	BaseClass::Event_Killed( info );
 }

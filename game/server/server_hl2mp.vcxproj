@@ -44,7 +44,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <TargetName>server</TargetName>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
@@ -100,7 +100,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
-    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</PostBuildEventUseInBuild>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</PostBuildEventUseInBuild>
     <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</PostBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -363,7 +363,7 @@ if "%valveTmpIsReadOnlyLetter%"=="R" del /q "$(TargetDir)"$(TargetFileName)
       <Message>
       </Message>
       <Command>
-copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "E:\Server\hl2mp\hl2mp\bin\x64\$(TargetName)$(TargetExt)"</Command>
+copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "D:\Debian\Steam\hl2mp-win32\hl2mp\bin\x64\$(TargetName)$(TargetExt)"</Command>
     </PostBuildEvent>
     <CustomBuildStep />
   </ItemDefinitionGroup>

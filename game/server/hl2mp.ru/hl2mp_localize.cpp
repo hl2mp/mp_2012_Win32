@@ -29,7 +29,7 @@ public:
 		return true;
 	}
 
-	const char *TranslateMsg( const char *szLanguage, char const *msg ) {
+	const char *TranslateMsg( const char *szLanguage, const char* msg ) {
 		KeyValues *pKV = main->FindKey( msg );
 		if( pKV != NULL ) {
 			msg = pKV->GetString( szLanguage );
