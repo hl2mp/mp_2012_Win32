@@ -34,13 +34,13 @@ public:
 				(fieldtype_t)KEY_TYPE, 
 				"K", 
 				{ 0, 0 },
-				1,
+				1, 
 				FTYPEDESC_SAVE, 
 				NULL, 
 				NULL, 
 				NULL,
 				pKeyDatamap,
-				FIELD_SIZE(KEY_TYPE),
+				sizeof(KEY_TYPE),
 			},
 			
 			{
@@ -53,7 +53,7 @@ public:
 				NULL, 
 				NULL,
 				pFieldDatamap,
-				FIELD_SIZE(KEY_TYPE),
+				sizeof(FIELD_TYPE),
 			}
 		};
 		
@@ -106,7 +106,7 @@ public:
 				NULL, 
 				NULL,
 				pKeyDatamap,
-				FIELD_SIZE(KEY_TYPE),
+				sizeof(KEY_TYPE),
 			},
 			
 			{
@@ -119,7 +119,7 @@ public:
 				NULL, 
 				NULL,
 				pFieldDatamap,
-				FIELD_SIZE(KEY_TYPE),
+				sizeof(FIELD_TYPE),
 			}
 		};
 		
