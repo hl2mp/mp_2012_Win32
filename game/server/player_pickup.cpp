@@ -64,12 +64,33 @@ void Pickup_OnPhysGunPickup( CBaseEntity *pPickedUpObject, CBasePlayer *pPlayer,
 #include "vehicle_base.h"
 #include "hl2mp_admins.h"
 #include "ai_basenpc.h"
+#include "physobj.h"
 
 bool Pickup_OnAttemptPhysGunPickup( CBaseEntity *pPickedUpObject, CBasePlayer *pPlayer, PhysGunPickup_t reason )
 {
 	if ( pPlayer->GetGroundEntity() == pPickedUpObject )
 		return false;
 	
+	if ( pPickedUpObject->GetBaseAnimating() && pPickedUpObject->GetBaseAnimating()->IsDissolving() )
+		return false;
+
+	if ( pPickedUpObject->HasSpawnFlags( SF_PHYSBOX_ALWAYS_PICK_UP ) || pPickedUpObject->HasSpawnFlags( SF_PHYSBOX_NEVER_PICK_UP ) )
+	{
+		// It may seem strange to check this spawnflag before we know the class of this object, since the 
+		// spawnflag only applies to func_physbox, but it can act as a filter of sorts to reduce the number 
+		// of irrelevant entities that fall through to this next casting check, which is slower.
+		CPhysBox *pPhysBox = dynamic_cast<CPhysBox*>(pPickedUpObject);
+
+		if ( pPhysBox != NULL )
+		{
+			if ( pPickedUpObject->HasSpawnFlags( SF_PHYSBOX_NEVER_PICK_UP ) )
+                return false;
+		}
+	}
+
+	if ( pPickedUpObject->IsEFlagSet( EFL_NO_PHYSCANNON_INTERACTION ) )
+		return false;
+
 	if( !IsAdmin( pPlayer, FL_ADMIN_PICKUP_CL_NPC ) && pPickedUpObject->GetPlayerMP() && pPickedUpObject->GetPlayerMP() != pPlayer )
 		return false;
 
@@ -99,6 +120,7 @@ bool Pickup_OnAttemptPhysGunPickup( CBaseEntity *pPickedUpObject, CBasePlayer *p
 	{
 		return pPickup->OnAttemptPhysGunPickup( pPlayer, reason );
 	}
+
 	return true;
 }
 
