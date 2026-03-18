@@ -3191,7 +3191,8 @@ void CTriggerCamera::Enable( void )
 	
 	// Make the player invulnerable while under control of the camera.  This will prevent situations where the player dies while under camera control but cannot restart their game due to disabled player inputs.
 	m_nOldTakeDamage = m_hPlayer->m_takedamage;
-	m_hPlayer->m_takedamage = DAMAGE_NO;
+	//hl2mp.ru
+	//m_hPlayer->m_takedamage = DAMAGE_NO;
 	
 	if ( HasSpawnFlags( SF_CAMERA_PLAYER_NOT_SOLID ) )
 	{
@@ -3333,7 +3334,8 @@ void CTriggerCamera::Disable( void )
 			((CBasePlayer*)m_hPlayer.Get())->GetActiveWeapon()->RemoveEffects( EF_NODRAW );
 		}
 		//return the player to previous takedamage state
-		m_hPlayer->m_takedamage = m_nOldTakeDamage;
+		//hl2mp.ru
+		//m_hPlayer->m_takedamage = m_nOldTakeDamage;
 	}
 
 	m_state = USE_OFF;
