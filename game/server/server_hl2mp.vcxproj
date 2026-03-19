@@ -532,7 +532,6 @@ copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "D:\Debian\Steam\hl2mp-win32\hl2mp\
     <ClInclude Include="..\..\public\ihltv.h" />
     <ClInclude Include="..\..\public\ihltvdirector.h" />
     <ClInclude Include="..\..\public\vstdlib\IKeyValuesSystem.h" />
-    <ClInclude Include="hl2mp.ru\stripper\parser.h" />
     <ClInclude Include="ilagcompensationmanager.h" />
     <ClInclude Include="..\..\public\vgui\ILocalize.h" />
     <ClInclude Include="..\..\public\materialsystem\imaterial.h" />
@@ -1293,9 +1292,6 @@ copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "D:\Debian\Steam\hl2mp-win32\hl2mp\
     <ClCompile Include="func_ladder_endpoint.cpp" />
     <ClCompile Include="func_lod.cpp" />
     <ClCompile Include="hl2mp.ru\hl2mp_worldtext.cpp" />
-    <ClCompile Include="hl2mp.ru\stripper\parser.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="hl2\Func_Monitor.cpp" />
     <ClCompile Include="func_movelinear.cpp" />
     <ClCompile Include="func_occluder.cpp" />
@@ -1925,7 +1921,6 @@ copy /Y "$(OutDir)$(TargetName)$(TargetExt)" "D:\Debian\Steam\hl2mp-win32\hl2mp\
   <ItemGroup>
     <Library Include="..\..\lib\public\choreoobjects.lib" />
     <Library Include="..\..\lib\public\dmxloader.lib" />
-    <Library Include="..\..\lib\public\libpcre.lib" />
     <Library Include="..\..\lib\public\mathlib.lib" />
     <Library Include="..\..\lib\public\particles.lib" />
     <Library Include="..\..\lib\public\steam_api.lib" />

@@ -70,9 +70,6 @@
     <Filter Include="Tools Framework">
       <UniqueIdentifier>{FCC2FE3A-D0E2-0EDC-AE64-D30D4732D497}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\hl2mp.ru\stripper">
-      <UniqueIdentifier>{c1bae889-9780-41d4-8e4f-399ff8123285}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\public\mathlib\amd3dx.h">
@@ -1985,9 +1982,6 @@
     </ClInclude>
     <ClInclude Include="toolframework_server.h">
       <Filter>Tools Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="hl2mp.ru\stripper\parser.h">
-      <Filter>Source Files\hl2mp.ru\stripper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4019,9 +4013,6 @@
     <ClCompile Include="toolframework_server.cpp">
       <Filter>Tools Framework</Filter>
     </ClCompile>
-    <ClCompile Include="hl2mp.ru\stripper\parser.cpp">
-      <Filter>Source Files\hl2mp.ru\stripper</Filter>
-    </ClCompile>
     <ClCompile Include="hl2mp.ru\hl2mp_worldtext.cpp">
       <Filter>Source Files\hl2mp.ru</Filter>
     </ClCompile>
@@ -4031,9 +4022,6 @@
       <Filter>Link Libraries</Filter>
     </Library>
     <Library Include="..\..\lib\public\dmxloader.lib">
-      <Filter>Link Libraries</Filter>
-    </Library>
-    <Library Include="..\..\lib\public\libpcre.lib">
       <Filter>Link Libraries</Filter>
     </Library>
     <Library Include="..\..\lib\public\mathlib.lib">

@@ -963,8 +963,8 @@ extern void ResetSaveData(void);
 
 extern void OnLevelLoadStart(const char* levelName, const char* pMapData);
 
-#include "stripper/parser.h"
-#include "memory"
+//#include "stripper/parser.h"
+//#include "memory"
 
 // Called any time a new level is started (after GameInit() also on level transitions within a game)
 bool CServerGameDLL::LevelInit( const char *pMapName, char const *pMapEntities, char const *pOldLevel, char const *pLandmarkName, bool loadGame, bool background )
@@ -992,18 +992,18 @@ bool CServerGameDLL::LevelInit( const char *pMapName, char const *pMapEntities, 
 
 	pMapEntities = (const char*)buf.Base();
 
-	std::unique_ptr<Stripper> g_Stripper(new Stripper());
+	//std::unique_ptr<Stripper> g_Stripper(new Stripper());
 
-	g_Stripper->SetEntityList(pMapEntities);
+	//g_Stripper->SetEntityList(pMapEntities);
 
-	char fullPath[_MAX_PATH];
-	if (filesystem->GetLocalPath("stripper/global_filters.cfg", fullPath, sizeof(fullPath)))
-		g_Stripper->ApplyFileFilter(fullPath);
+	//char fullPath[_MAX_PATH];
+	//if (filesystem->GetLocalPath("stripper/global_filters.cfg", fullPath, sizeof(fullPath)))
+	//	g_Stripper->ApplyFileFilter(fullPath);
 
-	if (filesystem->GetLocalPath(UTIL_VarArgs("stripper/maps/%s.cfg", pMapName), fullPath, sizeof(fullPath)))
-		g_Stripper->ApplyFileFilter(fullPath);
+	//if (filesystem->GetLocalPath(UTIL_VarArgs("stripper/maps/%s.cfg", pMapName), fullPath, sizeof(fullPath)))
+	//	g_Stripper->ApplyFileFilter(fullPath);
 
-	pMapEntities = g_Stripper->ToString();
+	//pMapEntities = g_Stripper->ToString();
 	
 	//downloadables
 	OnLevelLoadStart(pMapName, pMapEntities);
