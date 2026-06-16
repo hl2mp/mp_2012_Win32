@@ -104,6 +104,10 @@ bool PhysCannonAccountableForObject( CBaseCombatWeapon *pPhysCannon, CBaseEntity
 
 #endif
 
+// hl2mp.ru use original trace hl2
+#include "physobj.h"
+#include "model_types.h"
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 // this will hit skip the pass entity, but not anything it owns 
@@ -118,13 +122,92 @@ public:
 	{
 	}
 	
-	virtual bool ShouldHitEntity( IHandleEntity *pHandleEntity, int contentsMask )
+	//virtual bool ShouldHitEntity( IHandleEntity *pHandleEntity, int contentsMask )
+	//{
+	//	if ( pHandleEntity != m_pPassNotOwner )
+	//		return BaseClass::ShouldHitEntity( pHandleEntity, contentsMask );
+
+	//	return false;
+	//}
+
+	// hl2mp.ru use original trace hl2
+	
+	
+	bool HasContentsGrate( CBaseEntity *pEntity )
 	{
-		if ( pHandleEntity != m_pPassNotOwner )
-			return BaseClass::ShouldHitEntity( pHandleEntity, contentsMask );
+		// FIXME: Move this into the GetModelContents() function in base entity
+
+		// Find the contents based on the model type
+		int nModelType = modelinfo->GetModelType( pEntity->GetModel() );
+		if ( nModelType == mod_studio )
+		{
+			CBaseAnimating *pAnim = dynamic_cast<CBaseAnimating *>(pEntity);
+			if ( pAnim != NULL )
+			{
+				CStudioHdr *pStudioHdr = pAnim->GetModelPtr();
+				if ( pStudioHdr != NULL && (pStudioHdr->contents() & CONTENTS_GRATE) )
+					return true;
+			}
+		}
+		else if ( nModelType == mod_brush )
+		{
+			// Brushes poll their contents differently
+			int contents = modelinfo->GetModelContents( pEntity->GetModelIndex() );
+			if ( contents & CONTENTS_GRATE )
+				return true;
+		}
 
 		return false;
 	}
+	
+	virtual bool ShouldHitEntity( IHandleEntity *pHandleEntity, int contentsMask )
+	{
+		// Only skip ourselves (not things we own)
+		if ( pHandleEntity == m_pPassNotOwner )
+			return false;
+
+		// Get the entity referenced by this handle
+		CBaseEntity *pEntity = EntityFromEntityHandle( pHandleEntity );
+		if ( pEntity == NULL )
+			return false;
+
+		// Handle grate entities differently
+		if ( HasContentsGrate( pEntity ) )
+		{
+			// See if it's a grabbable physics prop
+			CPhysicsProp *pPhysProp = dynamic_cast<CPhysicsProp *>(pEntity);
+			if ( pPhysProp != NULL )
+				return pPhysProp->CanBePickedUpByPhyscannon();
+
+			// See if it's a grabbable physics prop
+			if ( FClassnameIs( pEntity, "prop_physics" ) )
+			{
+				CPhysicsProp *pPhysProp = dynamic_cast<CPhysicsProp *>(pEntity);
+				if ( pPhysProp != NULL )
+					return pPhysProp->CanBePickedUpByPhyscannon();
+
+				// Somehow had a classname that didn't match the class!
+				Assert(0);
+			}
+			else if ( FClassnameIs( pEntity, "func_physbox" ) )
+			{
+				// Must be a moveable physbox
+				CPhysBox *pPhysBox = dynamic_cast<CPhysBox *>(pEntity);
+				if ( pPhysBox )
+					return pPhysBox->CanBePickedUpByPhyscannon();
+
+				// Somehow had a classname that didn't match the class!
+				Assert(0);
+			}
+
+			// Don't bother with any other sort of grated entity
+			return false;
+		}
+
+		// Use the default rules
+		return BaseClass::ShouldHitEntity( pHandleEntity, contentsMask );
+	}
+ 
 
 protected:
 	const IHandleEntity *m_pPassNotOwner;
@@ -2458,6 +2541,34 @@ bool CWeaponPhysCannon::CanPickupObject( CBaseEntity *pTarget )
 
 	if ( pTarget->GetBaseAnimating() && pTarget->GetBaseAnimating()->IsDissolving() )
 		return false;
+
+	// hl2mp.ru use original hl2
+	if ( pTarget->HasSpawnFlags( SF_PHYSBOX_ALWAYS_PICK_UP ) || pTarget->HasSpawnFlags( SF_PHYSBOX_NEVER_PICK_UP ) )
+	{
+		// It may seem strange to check this spawnflag before we know the class of this object, since the 
+		// spawnflag only applies to func_physbox, but it can act as a filter of sorts to reduce the number 
+		// of irrelevant entities that fall through to this next casting check, which is slower.
+		CPhysBox *pPhysBox = dynamic_cast<CPhysBox*>(pTarget);
+
+		if ( pPhysBox != NULL )
+		{
+			if ( pTarget->HasSpawnFlags( SF_PHYSBOX_NEVER_PICK_UP ) )
+                return false;
+			else
+				return true;
+		}
+	}
+
+	if ( pTarget->HasSpawnFlags(SF_PHYSPROP_ALWAYS_PICK_UP) )
+	{
+		// It may seem strange to check this spawnflag before we know the class of this object, since the 
+		// spawnflag only applies to func_physbox, but it can act as a filter of sorts to reduce the number 
+		// of irrelevant entities that fall through to this next casting check, which is slower.
+		CPhysicsProp *pPhysProp = dynamic_cast<CPhysicsProp*>(pTarget);
+		if ( pPhysProp != NULL )
+			return true;
+	}
+	// hl2mp.ru end
 
 	if ( pTarget->IsEFlagSet( EFL_NO_PHYSCANNON_INTERACTION ) )
 		return false;

@@ -23,7 +23,7 @@ DEFINES += -DINCLUDED_STEAM2_USERID_STRUCTS -DVPC -DRAD_TELEMETRY_DISABLED -DNDE
 else
 DEFINES += -DINCLUDED_STEAM2_USERID_STRUCTS -DVPC -DRAD_TELEMETRY_DISABLED -DNDEBUG -DGNUC -DPOSIX -DCOMPILER_GCC -D_DLL_EXT=.so -D_LINUX -DLINUX -DPOSIX -D_POSIX -DDLLNAME=server -DBINK_VIDEO -DGL_GLEXT_PROTOTYPES -DDX_TO_GL_ABSTRACTION -DUSE_SDL -DDEV_BUILD -DFRAME_POINTER_OMISSION_DISABLED -DGAME_DLL -DVECTOR -DVERSION_SAFE_STEAM_API_INTERFACES -DPROTECTED_THINGS_ENABLE -Dsprintf=use_Q_snprintf_instead_of_sprintf -Dstrncpy=use_Q_strncpy_instead -D_snprintf=use_Q_snprintf_instead -DSWDS -DUSE_NAV_MESH -DHL2MP -DHL2_DLL -DNEXT_BOT -D_EXTERNAL_DLL_EXT=.so -DVPCGAMECAPS=HL2MP -D_DLL_EXT=_srv.so -DSOURCE1=1 -DVPCGAME=hl2mp -D_LINUX=1 -D_POSIX=1 -DLINUX=1 -DPOSIX=1 
 endif
-INCLUDEDIRS += ../../common ../../public ../../public/tier0 ../../public/tier1 ./ ../../game/shared ../../game/shared/econ ../../game/server/NextBot ../../game/shared/hl2 ./hl2 ./hl2mp ../../game/shared/hl2mp ../../game/server/hl2mp.ru ../../game/server/hl2mp.ru/stripper
+INCLUDEDIRS += ../../common ../../public ../../public/tier0 ../../public/tier1 ./ ../../game/shared ../../game/shared/econ ../../game/server/NextBot ../../game/shared/hl2 ./hl2 ./hl2mp ../../game/shared/hl2mp ../../game/server/hl2mp.ru
 CONFTYPE=dll
 IMPORTLIBRARY=
 GAMEOUTPUTFILE=/home/danila/Steam/hl2mp/hl2mp/bin/server.so
@@ -468,7 +468,6 @@ CPPFILES= \
     hl2mp.ru/npc_zombine.cpp \
     hl2mp.ru/point_teleport.cpp \
     hl2mp.ru/point_trigger.cpp \
-    hl2mp.ru/stripper/parser.cpp \
     hl2mp.ru/trigger_player_count.cpp \
     hl2mp.ru/vehicle_jeep_episodic.cpp \
     hl2mp.ru/weapon_hl2mp_flaregun.cpp \
@@ -734,7 +733,6 @@ LIBFILENAMES = \
     ../../lib/public/linux32/tier1.a \
     ../../lib/public/linux32/tier2.a \
     ../../lib/public/linux32/tier3.a \
-	../../lib/public/linux32/libpcre.a \
 
 
 # Include the base makefile now.

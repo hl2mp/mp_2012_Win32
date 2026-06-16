@@ -2581,7 +2581,9 @@ void CServerGameEnts::CheckTransmit( CCheckTransmitInfo *pInfo, const unsigned s
 		{
 			// FIXME: Hey! Shouldn't this be using SetTransmit so as 
 			// to also force network down dependent entities?
-			while ( true )
+			// hl2mp.ru 
+			//while ( true )
+			while( pEdict )
 			{
 				// mark entity for sending
 				pInfo->m_pTransmitEdict->Set( iEdict );

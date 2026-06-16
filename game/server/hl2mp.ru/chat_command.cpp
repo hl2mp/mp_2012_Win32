@@ -36,8 +36,8 @@ int GetPlayerInfo( CBasePlayer *pPlayer ) {
 	player.SteamID64 = pPlayer->GetSteamIDAsUInt64();
 	player.tpCount = 5;
 	player.SaveOrigin = vec3_origin;
-	player.flNextMTP = 0.0;
-	player.flNextSave = 0.0;
+	player.flNextMTP = 0.0f;
+	player.flNextSave = 0.0f;
 	return m_PlayerInfo.AddToTail( player );
 }
 
@@ -67,6 +67,8 @@ void SaveTpClearPoint()
 {
 	for ( int i = 0; i < m_PlayerInfo.Count(); i++ ) {
 		m_PlayerInfo[i].SaveOrigin = vec3_origin;
+		m_PlayerInfo[i].flNextSave = 0.0f;
+		m_PlayerInfo[i].flNextMTP == 0.0f;
 	}
 
 	UTIL_SayTextAll("#HL2MP_SaveTpClean");
@@ -93,7 +95,7 @@ bool ExtraChatCommand( CBasePlayer *pPlayer, char *msg ) {
 
 	const char *szLanguage = engine->GetClientConVarValue( pPlayer->entindex(), "cl_language" );
 
-	if( !Q_stricmp( msg, "currentmap" ) ) 
+	/*if( !Q_stricmp( msg, "currentmap" ) ) 
 	{
 		ClientPrint( pPlayer, HUD_PRINTTALK, STRING( gpGlobals->mapname ) );
 		return true;
@@ -163,7 +165,7 @@ bool ExtraChatCommand( CBasePlayer *pPlayer, char *msg ) {
 		UTIL_ClientPrintAll(HUD_PRINTTALK, szMessage);
 
 		return true;
-	}
+	}*/
 
 	if( !pPlayer->IsAlive() )
 		return false;
